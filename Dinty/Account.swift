@@ -10,28 +10,34 @@ import Foundation
 struct Accounts: Codable{
     var Account2s: [Account]
     public mutating func getTotal() {
-        var total = 0.0
+        var calced = 0.0
+        var statement = 0.0
         for account in Account2s {
-            total += account.CalcedBalance.Amount
+            calced += account.CalcedBalance.Amount
+            if (account.StatementBalance != nil){
+                statement += account.StatementBalance!.Amount
+                
+            }
         }
         let accountInfo: AccountInfo = AccountInfo(name: "Total", shortName: "Total", group: "Total")
-        let balance: Currency = Currency(amount: total)
-        let totalAccount: Account = Account(info: accountInfo, calcedBalance: balance)
+        let totalAccount: Account = Account(info: accountInfo, calcedBalance: Currency(amount: calced), statementBalance: Currency(amount: statement))
         Account2s.append(totalAccount)
     }
 }
 struct Account: Identifiable, Codable {
     var id = UUID() // Automatically generate a unique identifier
 
-    init(info: AccountInfo, calcedBalance: Currency){
+    init(info: AccountInfo, calcedBalance: Currency, statementBalance: Currency){
         Info = info
         CalcedBalance = calcedBalance
+        StatementBalance = statementBalance
         AccountUrl = nil
         PaymentDate = nil
     }
     let AccountUrl: String?
     var Info: AccountInfo
     var CalcedBalance: Currency
+    var StatementBalance: Currency?
     let PaymentDate: String?
     func PaymentDateDate() -> Date? {
         if (PaymentDate == nil || PaymentDate!.starts(with: "00")) {
@@ -63,6 +69,7 @@ struct Account: Identifiable, Codable {
         case AccountUrl
         case Info
         case CalcedBalance
+        case StatementBalance
         case PaymentDate
     }
 }

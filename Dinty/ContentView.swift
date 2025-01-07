@@ -16,16 +16,12 @@ struct ContentView: View {
         NavigationView{
             List(accounts){ account in
                 HStack{
-                    Text(account.Info.ShortName).font(.headline)
+                    NavigationLink(destination: AccountView(account: account)){
+                        Text(account.Info.ShortName).font(.headline)
+                    }
                     Spacer()
                     Text(account.PaymentDateString())
                     Text(account.CalcedBalance.ToString())
-                    Button(action: {
-                        openBrowser(urlString: account.AccountUrl)
-                    }) {
-                        Text("url")
-                            .foregroundColor(.blue)
-                    }
                 }
             }
         }
@@ -53,16 +49,7 @@ struct ContentView: View {
             }
         }
     }
-    func openBrowser(urlString: String?) {
-        if (urlString == nil){
-            return print("No URL");
-        }
-        else if let url = URL(string: urlString!), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            print("Invalid URL")
-        }
-    }
+
 
 }
 
