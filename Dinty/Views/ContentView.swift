@@ -17,7 +17,7 @@ struct ContentView: View {
         NavigationView{
             VStack{
                 HStack(){
-                    ForEach(Array(_groups.keys), id: \.self) { key in
+                    ForEach(Array(_groups.keys.sorted()), id: \.self) { key in
                         Button(action: {
                             OnOff(group: key)
                         }) {

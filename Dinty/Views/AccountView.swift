@@ -14,16 +14,22 @@ struct AccountView: View {
     var body: some View {
         VStack
         {
-            Text("Bal: \(account.CalcedBalance.ToString())")
+            HStack{
+                Text("Bal: \(account.CalcedBalance.ToString())")
                 //.font(.largeTitle)
-                .navigationTitle(account.Info.ShortName)
-            Text("Statement: \(account.StatementBalance!.ToString()) Due: \(account.PaymentDateString())")
-            Button(action: {
-                openBrowser(urlString: account.AccountUrl)
-            }) {
-                Text("url")
-                    .foregroundColor(.blue)
+                Button(action: {
+                    openBrowser(urlString: account.AccountUrl)
+                }) {
+                    Text("🌐")
+                        .foregroundColor(.blue)
+                }
             }
+            .navigationTitle(account.Info.ShortName)
+            if (account.StatementBalance != nil)
+            {
+                Text("Statement: \(account.StatementBalance!.ToString()) Due: \(account.PaymentDateString())")
+            }
+ 
             List(account.Transactions.sorted(by: { $0.Timestamp > $1.Timestamp })){ transaction in
                 HStack{
                     Text(transaction.TimestampString())
