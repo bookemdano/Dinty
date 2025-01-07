@@ -23,6 +23,13 @@ struct Accounts: Codable{
         let totalAccount: Account = Account(info: accountInfo, calcedBalance: Currency(amount: calced), statementBalance: Currency(amount: statement))
         Account2s.append(totalAccount)
     }
+    public mutating func filterByGroups(groups:[String:Bool]){
+        groups.forEach { key, value in
+            if value == false {
+                Account2s.removeAll(where: { $0.Info.Group == key })
+            }
+        }
+    }
 }
 struct Account: Identifiable, Codable {
     var id = UUID() // Automatically generate a unique identifier
@@ -85,19 +92,4 @@ struct AccountInfo: Codable {
     var ShortName: String
     var Group: String
 }
-struct Currency: Codable {
-    var Amount: Double
-    init(amount: Double) {
-        Amount = amount
-    }
-    
-    public func ToString() -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
 
-        if let formattedNumber = formatter.string(from: NSNumber(value: Amount)) {
-            return formattedNumber // Output: $1,234.56 (for US locale)
-        }
-        return String(Amount)
-    }
-}
