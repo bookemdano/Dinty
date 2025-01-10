@@ -12,7 +12,7 @@ struct ContentView: View {
     let _iop = IOPAws()
     @State private var _accounts: [Account] = []
     @State private var _show: Bool = false
-    @State private var _groups: [String: Bool] = ["Bank":true, "Card":true, "LongInvestment":false, "ShortInvestment":false, "Cash":false, "Other":false]
+    @State private var _groups: [String: Bool] = ["Bank":true, "Card":true, "Long":false, "Short":false, "Cash":false, "Other":false]
     var body: some View {
         NavigationView{
             VStack{
@@ -39,7 +39,6 @@ struct ContentView: View {
             }
             .navigationTitle(Text("Dan Accounts"))
         }
-        
         .refreshable {
             Refresh()
         }
@@ -69,8 +68,6 @@ struct ContentView: View {
             }
         }
     }
-
-
 }
 
 #Preview {

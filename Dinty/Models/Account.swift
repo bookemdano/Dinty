@@ -26,7 +26,14 @@ struct Accounts: Codable{
     public mutating func filterByGroups(groups:[String:Bool]){
         groups.forEach { key, value in
             if value == false {
-                Account2s.removeAll(where: { $0.Info.Group == key })
+                var group = key
+                if (group == "Short") {
+                    group = "ShortInvestment"
+                }
+                else if (group == "Long"){
+                    group = "LongInvestment"
+                }
+                Account2s.removeAll(where: { $0.Info.Group == group })
             }
         }
     }
