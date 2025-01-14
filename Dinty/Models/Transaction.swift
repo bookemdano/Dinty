@@ -14,7 +14,13 @@ struct Transaction: Identifiable, Codable {
     let Amount: Currency
     let Category: String
     let Asset: String?
-    let Pending: Bool
+    let Status: String
+    func IsPending() -> Bool {
+        return (Status == "ScheduledAndPending" || Status == "NotScheduledAndPending" || Status == "Pending")
+    }
+    func IsFuture() -> Bool {
+        return Status == "Future"
+    }
     func TimestampDate() -> Date {
         let sub = Timestamp.prefix(10)
         let datePart = String(sub)
@@ -39,6 +45,6 @@ struct Transaction: Identifiable, Codable {
         case Amount
         case Category
         case Asset
-        case Pending
+        case Status
     }
 }

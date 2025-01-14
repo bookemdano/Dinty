@@ -35,7 +35,7 @@ struct AccountView: View {
                     Text(transaction.TimestampString())
                     Text(transaction.Title)
                     Spacer()
-                    Text(transaction.Amount.ToString()).italic(transaction.Pending)
+                    Text(transaction.Amount.ToString()).italic(transaction.IsPending()).strikethrough(transaction.IsFuture())
                 }
             }
         }
