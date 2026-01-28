@@ -52,7 +52,7 @@ struct ContentView: View {
     }
     func Refresh(){
         Task{
-            let content = await _iop.Read(dir: "Data", file: "accountsDan.json")
+            let content = await _iop.ReadCompressed(dir: "Data", file: "accountsDan.json")
             
             let jsonString = content
             if let jsonData = jsonString.data(using: .utf8) {
